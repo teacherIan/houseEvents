@@ -34,10 +34,13 @@ export default function AddAdmin({ setMenuState }) {
   async function updateDatabase() {
     if (name.length < 3) {
       alert('Please enter a valid name');
+      return;
     } else if (email.length < 5) {
       alert('Please enter a valid email');
-    } else if (password.length < 3) {
-      alert('Password length much be over three characters long');
+      return;
+    } else if (password.length < 6) {
+      alert('Password length much be >= 6 characters long');
+      return;
     } else {
       try {
         createUser(email, password, name);
@@ -45,6 +48,7 @@ export default function AddAdmin({ setMenuState }) {
         setEmail('');
         setName('');
         setPassword('');
+        setMenuState(-1);
       } catch (e) {
         console.log(e);
         alert('Failed to add new Admin');
