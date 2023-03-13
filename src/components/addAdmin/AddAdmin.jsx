@@ -40,7 +40,7 @@ export default function AddAdmin({ setMenuState }) {
       alert('Password length much be over three characters long');
     } else {
       try {
-        createUser(email, password);
+        createUser(email, password, name);
         alert('successfully Added New Admin');
         setEmail('');
         setName('');
@@ -87,9 +87,3 @@ export default function AddAdmin({ setMenuState }) {
     </>
   );
 }
-
-// addDoc(collection(db, 'admin'), {
-//   name: name,
-//   email: email,
-//   password: password,
-// });

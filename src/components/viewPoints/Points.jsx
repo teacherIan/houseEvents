@@ -3,48 +3,53 @@ import { GiReturnArrow } from 'react-icons/gi';
 import DataPoint from './event/DataPoint';
 import ReturnButton from '../buttons/ReturnButton.jsx';
 import { motion } from 'framer-motion';
+import { onSnapshot, doc, collection } from 'firebase/firestore';
+import { db } from '../../db/db.js';
+import { useState, useEffect } from 'react';
 
-const dummyData = [
-  {
-    name: 'johnny',
-    event: 'Running',
-    date: '03:01:2023',
-    pointsAwarded: 10,
-  },
-
-  {
-    name: 'billy',
-    event: 'Basketball',
-    date: '03:07:2023',
-    pointsAwarded: 20,
-  },
-
-  {
-    name: 'johnny',
-    event: 'Soccer',
-    date: '03:05:2023',
-    pointsAwarded: 30,
-  },
-];
+const hover = {
+  backgroundColor: '#DFBBB1',
+  color: '#373F51',
+  scale: 1.1,
+  // border: `#373F51 5px solid`,
+  opacity: 1,
+};
 
 export default function Points({ setViewPoints, setMenuState }) {
-  return (
-    <motion.section className={styles.container} animate={{ opacity: 1 }}>
-      <motion.header animate={{ opacity: 1 }}>Login</motion.header>
+  const [data, setData] = useState([]);
 
-      <motion.form animate={{ opacity: 1 }}>
-        <label>
-          Email:
-          <input type="email" />
-        </label>
-        <label>
-          Password:
-          <input type="password" />
-        </label>
-        <motion.button whileHover={hover} onClick={clickHandler}>
-          Submit
-        </motion.button>
-      </motion.form>
-    </motion.section>
+  useEffect(() => {
+    const data = [];
+    const unsubscribe = onSnapshot(
+      collection(db, 'points'),
+      (querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          data.push(doc.data());
+        });
+
+        setData(data);
+
+        return () => unsubscribe();
+      }
+    );
+  }, []);
+
+  return (
+    <>
+      <ReturnButton setMenuState={setMenuState} />
+      <motion.section className={styles.container} animate={{ opacity: 1 }}>
+        {data.map((data, index) => (
+          <DataPoint
+            key={index}
+            competition={data.competition}
+            givenBy={data.givenBy}
+            house={data.house}
+            name={data.name}
+            otherInfo={data.otherInfo}
+            points={data.points}
+          />
+        ))}
+      </motion.section>
+    </>
   );
 }

@@ -6,6 +6,8 @@ import { useState } from 'react';
 export default function UserInformation() {
   const { user, logout } = UserAuth();
 
+  console.log(user);
+
   return (
     <motion.div
       animate={{ opacity: 1 }}
@@ -17,7 +19,7 @@ export default function UserInformation() {
         initial={false}
         className={style.text}
       >
-        Logged In As: {user === null ? null : user.email}
+        Logged In As: <br /> {user === null ? null : user.email}
       </motion.div>
     </motion.div>
   );

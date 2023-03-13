@@ -7,8 +7,7 @@ export default function ViewAdmin({ setMenuState }) {
   return (
     <>
       <ReturnButton setMenuState={setMenuState} />
-      In View Admin
-      <button onClick={() => setMenuState(-1)}>Return</button>
+      <div className={styles.center}>You do not have access to view admin</div>
     </>
   );
 }

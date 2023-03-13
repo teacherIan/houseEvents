@@ -17,7 +17,7 @@ function App() {
   const [error, setError] = useState('');
   // const [loggedIn, setLoggedIn] = useState(false);
 
-  const { user, logout, loggedIn, setLoggedIn } = UserAuth();
+  const { user, logout, loggedIn, setLoggedIn, loading } = UserAuth();
 
   const handleLoggedInState = async () => {
     if (loggedIn) {
@@ -71,6 +71,7 @@ function App() {
             {/** Login/Logout */}
             {!loggedIn ? (
               <motion.button
+                disabled={loading}
                 whileHover={hover}
                 className={style.button}
                 onClick={handleLoggedInState}

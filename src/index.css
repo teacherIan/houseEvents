@@ -27,13 +27,13 @@ header {
     justify-content: center;
     align-items: center;
     margin: clamp(6px, 8px, 10px);
-    font-size: clamp(10px, 50px, 100px);
+    font-size: clamp(10px, 25px, 50px);
     color: #DFBBB1;
     opacity: 0
 }
 
 label {
-    font-size: clamp(10px, 30px, 50px);
+    font-size: clamp(10px, 25px, 40px);
     color: #DFBBB1;
     display: flex;
     justify-content: space-between;
@@ -69,7 +69,7 @@ button {
     cursor: pointer;
     border: #DFBBB1 3px solid;
     font-weight: 900;
-    font-size: clamp(10px, 30px, 70px);
+    font-size: clamp(10px, 30px, 50px);
     border-radius: 3px;
 
 }
@@ -93,7 +93,7 @@ i {
     /* left: clamp(5px 10px 15px); */
     text-align: center;
     color: #DFBBB1;
-    font-size: clamp(10px, 50px, 100px);
+    font-size: clamp(10px, 30px, 70px);
     margin: 0px;
     cursor: pointer;
     opacity: 0

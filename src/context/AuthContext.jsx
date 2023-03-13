@@ -13,9 +13,21 @@ const UserContext = createContext();
 export const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  const createUser = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const createUser = async (email, password, name) => {
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      return result.user.updateProfile({
+        displayName: name,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const signIn = (email, password) => {
@@ -30,11 +42,13 @@ export const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
+        setLoading(false);
         setUser(currentUser);
         setLoggedIn(true);
         console.log('User set to true');
       } else {
         setLoggedIn(false);
+        setLoading(false);
       }
     });
 
@@ -45,7 +59,15 @@ export const AuthContextProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ createUser, user, logout, signIn, loggedIn, setLoggedIn }}
+      value={{
+        createUser,
+        user,
+        logout,
+        signIn,
+        loggedIn,
+        setLoggedIn,
+        loading,
+      }}
     >
       {children}
     </UserContext.Provider>
