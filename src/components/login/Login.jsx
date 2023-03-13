@@ -20,18 +20,24 @@ export default function Login({ setMenuState, setLoggedIn }) {
 
   // console.log(user);
 
+  // useEffect(() => {
+  //   return () => {
+  //     logout();
+  //   };
+  // }, []);
+
   const clickHandler = async (e) => {
     e.preventDefault();
     setError('');
     try {
       await signIn(email, password);
+      setMenuState(-1);
+      setLoggedIn(true);
     } catch (e) {
       setError(e.message);
       console.log(e.message);
+      alert('email/password incorrect');
     }
-
-    setMenuState(-1);
-    setLoggedIn(true);
   };
 
   return (

@@ -9,24 +9,33 @@ import Login from './components/login/Login.jsx';
 import { UserAuth } from './context/AuthContext';
 
 function App() {
-  //controls what is currently being shown
+  //controls which 'page' is currently being shown
   const [menuState, setMenuState] = useState(-1);
   //user state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
 
-  const { user, logout } = UserAuth();
+  const { user, logout, loggedIn, setLoggedIn } = UserAuth();
 
   const handleLoggedInState = async () => {
-    try {
-      await logout();
+    if (loggedIn) {
+      try {
+        await logout();
 
-      console.log('Working');
+        console.log('Working');
+        setLoggedIn(false);
+      } catch (e) {
+        console.log(e.message);
+      }
+      console.log('currently Logged In');
       setLoggedIn(false);
-    } catch (e) {
-      console.log(e.message);
+    }
+
+    if (!loggedIn) {
+      console.log('This is running');
+      setMenuState(0);
     }
   };
 
@@ -60,21 +69,21 @@ function App() {
           <motion.section animate={{ opacity: 1 }}>
             <motion.header animate={{ opacity: 1 }}>House Points</motion.header>
             {/** Login/Logout */}
-            {loggedIn ? (
+            {!loggedIn ? (
               <motion.button
                 whileHover={hover}
                 className={style.button}
                 onClick={handleLoggedInState}
               >
-                Logout
+                Log In
               </motion.button>
             ) : (
               <motion.button
                 whileHover={hover}
                 className={style.button}
-                onClick={() => setMenuState(0)}
+                onClick={handleLoggedInState}
               >
-                Login
+                Log Out
               </motion.button>
             )}
 

@@ -1,6 +1,8 @@
-import style from './points.module.css';
+import styles from './points.module.css';
 import { GiReturnArrow } from 'react-icons/gi';
 import DataPoint from './event/DataPoint';
+import ReturnButton from '../buttons/ReturnButton.jsx';
+import { motion } from 'framer-motion';
 
 const dummyData = [
   {
@@ -25,20 +27,24 @@ const dummyData = [
   },
 ];
 
-export default function Points({ setViewPoints }) {
+export default function Points({ setViewPoints, setMenuState }) {
   return (
-    <>
-      <i onClick={() => setViewPoints(false)} className={style.i}>
-        <GiReturnArrow />
-        <br />
-        Go Back
-      </i>
-      <header className={style.header}>Points Awarded</header>
-      <div className={style.dataPoints}>
-        {dummyData.map((dataPoint, index) => (
-          <DataPoint key={index} />
-        ))}
-      </div>
-    </>
+    <motion.section className={styles.container} animate={{ opacity: 1 }}>
+      <motion.header animate={{ opacity: 1 }}>Login</motion.header>
+
+      <motion.form animate={{ opacity: 1 }}>
+        <label>
+          Email:
+          <input type="email" />
+        </label>
+        <label>
+          Password:
+          <input type="password" />
+        </label>
+        <motion.button whileHover={hover} onClick={clickHandler}>
+          Submit
+        </motion.button>
+      </motion.form>
+    </motion.section>
   );
 }

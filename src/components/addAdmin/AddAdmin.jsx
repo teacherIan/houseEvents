@@ -4,8 +4,9 @@ import { collection, addDoc } from 'firebase/firestore';
 import { GiReturnArrow } from 'react-icons/gi';
 // import './addAdmin.css';
 import { motion } from 'framer-motion';
-import style from './addAdmin.module.css';
+import styles from './addAdmin.module.css';
 import { UserAuth } from '../../context/AuthContext.jsx';
+import ReturnButton from '../buttons/ReturnButton.jsx';
 
 export default function AddAdmin({ setMenuState }) {
   const [name, setName] = useState('');
@@ -53,20 +54,7 @@ export default function AddAdmin({ setMenuState }) {
 
   return (
     <>
-      <motion.div animate={{ opacity: 1 }} transition={{ delay: 1 }}>
-        <motion.i
-          initial={{
-            opacity: 0,
-          }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-          onClick={() => setMenuState(-1)}
-        >
-          <GiReturnArrow />
-          <br />
-          Go Back
-        </motion.i>
-      </motion.div>
+      <ReturnButton setMenuState={setMenuState} />
       <motion.section animate={{ opacity: 1 }}>
         <motion.header animate={{ opacity: 1 }}>Add New Admin</motion.header>
 
