@@ -21,6 +21,8 @@ export default function Points({ setViewPoints, setMenuState }) {
   const [amberPoints, setAmberPoints] = useState(0);
   const [pearlPoints, setPearlPoints] = useState(0);
   const [sapphirePoints, setSapphirePoints] = useState(0);
+  const [gender, setGender] = useState('Both');
+  const [house, setHouse] = useState('All');
 
   useEffect(() => {
     const data = [];
@@ -70,24 +72,102 @@ export default function Points({ setViewPoints, setMenuState }) {
           <div>Pearl: {pearlPoints}</div>
           <div>Sapphire: {sapphirePoints}</div>
         </div>
-        {data.map((data, index) => (
-          <DataPoint
-            key={index}
-            competition={data.competition}
-            givenBy={data.givenBy}
-            house={data.house}
-            name={data.name}
-            otherInfo={data.otherInfo}
-            points={data.points}
-            grade={data.grade}
-            created={data.created}
-            gender={data.gender}
-            rubyPoints={rubyPoints}
-            amberPoints={amberPoints}
-            pearlPoints={pearlPoints}
-            sapphirePoints={sapphirePoints}
+        <div className={styles.houseLabel}>Query Data</div>
+        <div className={styles.houseLabel}>House:</div>
+        <label className={styles.label}>
+          All:
+          <input
+            onClick={(e) => setHouse(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="All"
+            name="house"
           />
-        ))}
+          Ruby:
+          <input
+            onClick={(e) => setHouse(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="Ruby"
+            name="house"
+          />
+          Amber:
+          <input
+            onClick={(e) => setHouse(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="Amber"
+            name="house"
+          />
+          Pearl:
+          <input
+            onClick={(e) => setHouse(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="Pearl"
+            name="house"
+          />
+          Sapphire:
+          <input
+            onClick={(e) => setHouse(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="Sapphire"
+            name="house"
+          />
+        </label>
+        <div className={styles.houseLabel}>Gender:</div>
+        <label>
+          Both:
+          <input
+            onClick={(e) => setGender(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="Both"
+            name="gender"
+          />
+          Male:
+          <input
+            onClick={(e) => setGender(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="Male"
+            name="gender"
+          />
+          Female:
+          <input
+            onClick={(e) => setGender(e.target.value)}
+            className={styles.radioInput}
+            type="radio"
+            value="Female"
+            name="gender"
+          />
+        </label>
+        {data.map((data, index) => {
+          {
+            return (house === 'All' && gender === 'Both') ||
+              (house === 'All' && gender === data.gender) ||
+              (house === data.house && gender === data.gender) ||
+              (house === data.house && gender === 'Both') ? (
+              <DataPoint
+                key={index}
+                competition={data.competition}
+                givenBy={data.givenBy}
+                house={data.house}
+                name={data.name}
+                otherInfo={data.otherInfo}
+                points={data.points}
+                grade={data.grade}
+                created={data.created}
+                gender={data.gender}
+                rubyPoints={rubyPoints}
+                amberPoints={amberPoints}
+                pearlPoints={pearlPoints}
+                sapphirePoints={sapphirePoints}
+              />
+            ) : null;
+          }
+        })}
       </motion.section>
     </>
   );
