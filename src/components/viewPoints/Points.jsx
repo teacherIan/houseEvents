@@ -78,6 +78,7 @@ export default function Points({ setViewPoints, setMenuState }) {
           All:
           <input
             onClick={(e) => setHouse(e.target.value)}
+            defaultChecked
             className={styles.radioInput}
             type="radio"
             value="All"
@@ -120,6 +121,7 @@ export default function Points({ setViewPoints, setMenuState }) {
         <label>
           Both:
           <input
+            defaultChecked
             onClick={(e) => setGender(e.target.value)}
             className={styles.radioInput}
             type="radio"
