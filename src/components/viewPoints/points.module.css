@@ -4,3 +4,13 @@
     width: 100vw;
     height: 100%;
 }
+
+.pointsData {
+    color: #DFBBB1;
+    width: 100%;
+    height: 20vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

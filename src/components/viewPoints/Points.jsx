@@ -17,17 +17,42 @@ const hover = {
 
 export default function Points({ setViewPoints, setMenuState }) {
   const [data, setData] = useState([]);
+  const [rubyPoints, setRubyPoints] = useState(0);
+  const [amberPoints, setAmberPoints] = useState(0);
+  const [pearlPoints, setPearlPoints] = useState(0);
+  const [sapphirePoints, setSapphirePoints] = useState(0);
 
   useEffect(() => {
     const data = [];
+    let localSapphirePoints = 0;
+    let localAmberPoints = 0;
+    let localPearlPoints = 0;
+    let localRubyPoints = 0;
     const unsubscribe = onSnapshot(
       collection(db, 'points'),
       (querySnapshot) => {
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
-        });
-        data.sort((a, b) => b.created - a.created);
+          if (doc.data().house === 'Ruby') {
+            let points = parseInt(doc.data().points);
+            localRubyPoints += points;
+          } else if (doc.data().house === 'Amber') {
+            let points = parseInt(doc.data().points);
+            localAmberPoints += points;
+          } else if (doc.data().house === 'Pearl') {
+            let points = parseInt(doc.data().points);
+            localPearlPoints += points;
+          } else if (doc.data().house === 'Sapphire') {
+            let points = parseInt(doc.data().points);
+            localSapphirePoints += points;
+          }
+        }),
+          data.sort((a, b) => b.created - a.created);
         setData(data);
+        setSapphirePoints(localSapphirePoints);
+        setAmberPoints(localAmberPoints);
+        setPearlPoints(localPearlPoints);
+        setRubyPoints(localRubyPoints);
 
         return () => unsubscribe();
       }
@@ -37,7 +62,14 @@ export default function Points({ setViewPoints, setMenuState }) {
   return (
     <>
       <ReturnButton setMenuState={setMenuState} />
+
       <motion.section className={styles.container} animate={{ opacity: 1 }}>
+        <div className={styles.pointsData}>
+          <div>Ruby: {rubyPoints}</div>
+          <div>Amber: {amberPoints}</div>
+          <div>Pearl: {pearlPoints}</div>
+          <div>Sapphire: {sapphirePoints}</div>
+        </div>
         {data.map((data, index) => (
           <DataPoint
             key={index}
@@ -50,6 +82,10 @@ export default function Points({ setViewPoints, setMenuState }) {
             grade={data.grade}
             created={data.created}
             gender={data.gender}
+            rubyPoints={rubyPoints}
+            amberPoints={amberPoints}
+            pearlPoints={pearlPoints}
+            sapphirePoints={sapphirePoints}
           />
         ))}
       </motion.section>

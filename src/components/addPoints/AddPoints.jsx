@@ -18,10 +18,10 @@ const hover = {
 export default function AddPoints({ setMenuState }) {
   const [name, setName] = useState('');
   const [competition, setCompetition] = useState('');
-  const [points, setPoints] = useState('');
+  const [points, setPoints] = useState(0);
   const [otherInfo, setOtherInfo] = useState('');
   const [house, setHouse] = useState('');
-  const [grade, setGrade] = useState('');
+  const [grade, setGrade] = useState(0);
   const [gender, setGender] = useState('');
 
   const { user, logout, loggedIn, setLoggedIn, loading } = UserAuth();
