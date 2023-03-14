@@ -5,6 +5,7 @@ import { db } from '../../db/db.js';
 import { collection, addDoc } from 'firebase/firestore';
 import { UserAuth } from '../../context/AuthContext';
 import ReturnButton from '../buttons/ReturnButton';
+import { serverTimestamp } from 'firebase/firestore';
 
 const hover = {
   backgroundColor: '#DFBBB1',
@@ -20,6 +21,8 @@ export default function AddPoints({ setMenuState }) {
   const [points, setPoints] = useState('');
   const [otherInfo, setOtherInfo] = useState('');
   const [house, setHouse] = useState('');
+  const [grade, setGrade] = useState('');
+  const [gender, setGender] = useState('');
 
   const { user, logout, loggedIn, setLoggedIn, loading } = UserAuth();
 
@@ -35,18 +38,21 @@ export default function AddPoints({ setMenuState }) {
         otherInfo: otherInfo,
         house: house,
         givenBy: user.email,
+        grade: grade,
+        created: serverTimestamp(),
+        gender: gender,
       });
-      alert('Document written with ID: ', docRef.id);
+      alert('Points Added successfully!');
+      setName('');
+      setCompetition('');
+      setPoints('');
+      setOtherInfo('');
+      setHouse('');
+      setGrade('');
+      setMenuState(-1);
     } catch (e) {
       console.log('Error adding document: ', e);
     }
-
-    setName('');
-    setCompetition('');
-    setPoints('');
-    setOtherInfo('');
-    setHouse('');
-    alert('Points Added successfully!');
   }
 
   return (
@@ -65,7 +71,7 @@ export default function AddPoints({ setMenuState }) {
             />
           </label>
           <label className={styles.label}>
-            Competition:
+            Event:
             <input
               onChange={(e) => setCompetition(e.target.value)}
               className={styles.textInput}
@@ -76,6 +82,14 @@ export default function AddPoints({ setMenuState }) {
             Points Awarded:
             <input
               onChange={(e) => setPoints(e.target.value)}
+              className={styles.textInput}
+              type="number"
+            />
+          </label>
+          <label className={styles.label}>
+            Grade:
+            <input
+              onChange={(e) => setGrade(e.target.value)}
               className={styles.textInput}
               type="number"
             />
@@ -121,6 +135,25 @@ export default function AddPoints({ setMenuState }) {
               type="radio"
               value="Sapphire"
               name="house"
+            />
+          </label>
+          <div className={styles.houseLabel}>Gender:</div>
+          <label>
+            Male:
+            <input
+              onClick={(e) => setGender(e.target.value)}
+              className={styles.radioInput}
+              type="radio"
+              value="Male"
+              name="gender"
+            />
+            Female:
+            <input
+              onClick={(e) => setGender(e.target.value)}
+              className={styles.radioInput}
+              type="radio"
+              value="Female"
+              name="gender"
             />
           </label>
           <motion.button onClick={formSubmit} whileHover={hover}>

@@ -1,5 +1,6 @@
 .container {
     /* background-color: red; */
+    margin-top: 120px;
     width: 100vw;
-    height: 100vh;
+    height: 100%;
 }

@@ -11,9 +11,9 @@
 
 @media only screen and (max-width: 1000px) {
     .container {
-        width: 90%;
+        width: 100%;
         margin: 5px;
-        font-size: 12px;
+        font-size: 10px;
     }
 }
 
@@ -41,13 +41,41 @@
 
 .other {
     position: absolute;
-    left: 50%;
+    right: 10px;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateY(-50%);
 }
 
 .points {
     position: absolute;
     left: 10px;
     top: 10px;
+}
+
+.grade {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+}
+
+.competition {
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    transform: translateX(-50%);
+
+}
+
+.created {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.gender {
+    position: absolute;
+    left: 50%;
+    top: 70%;
+    transform: translate(-50%, -50%);
 }

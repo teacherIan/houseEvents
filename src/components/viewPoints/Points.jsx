@@ -26,7 +26,7 @@ export default function Points({ setViewPoints, setMenuState }) {
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
         });
-
+        data.sort((a, b) => b.created - a.created);
         setData(data);
 
         return () => unsubscribe();
@@ -47,6 +47,9 @@ export default function Points({ setViewPoints, setMenuState }) {
             name={data.name}
             otherInfo={data.otherInfo}
             points={data.points}
+            grade={data.grade}
+            created={data.created}
+            gender={data.gender}
           />
         ))}
       </motion.section>
