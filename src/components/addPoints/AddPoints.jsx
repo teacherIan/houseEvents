@@ -1,11 +1,13 @@
 import styles from './addPoints.module.css';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { db } from '../../db/db.js';
 import { collection, addDoc } from 'firebase/firestore';
 import { UserAuth } from '../../context/AuthContext';
 import ReturnButton from '../buttons/ReturnButton';
 import { serverTimestamp } from 'firebase/firestore';
+import students from '../../../studentList';
+import Students from './Students';
 
 const hover = {
   backgroundColor: '#DFBBB1',
@@ -16,19 +18,34 @@ const hover = {
 };
 
 export default function AddPoints({ setMenuState }) {
+  const maleRef = useRef();
+  const femaleRef = useRef();
+  const nameRef = useRef();
+  const gradeRef = useRef();
+  const genderRef = useRef();
+  const houseRef = useRef();
+  const rubyRef = useRef();
+  const amberRef = useRef();
+  const pearlRef = useRef();
+  const sapphireRef = useRef();
   const [name, setName] = useState('');
   const [competition, setCompetition] = useState('');
   const [points, setPoints] = useState(0);
   const [otherInfo, setOtherInfo] = useState('');
   const [house, setHouse] = useState('');
-  const [grade, setGrade] = useState(0);
+  const [grade, setGrade] = useState('');
   const [gender, setGender] = useState('');
+  const [selectStudents, setSelectStudents] = useState(false);
 
   const { user, logout, loggedIn, setLoggedIn, loading } = UserAuth();
 
+  const handleGetData = (e) => {
+    e.preventDefault();
+    setSelectStudents(true);
+  };
+
   async function formSubmit(e) {
     e.preventDefault();
-    console.log(name, competition, points, otherInfo, house);
 
     try {
       await addDoc(collection(db, 'points'), {
@@ -57,14 +74,38 @@ export default function AddPoints({ setMenuState }) {
 
   return (
     <>
+      {selectStudents ? (
+        <div className={styles.listContainer}>
+          <Students
+            nameRef={nameRef}
+            setName={setName}
+            setSelectStudents={setSelectStudents}
+            setGrade={setGrade}
+            gradeRef={gradeRef}
+            setHouse={setHouse}
+            rubyRef={rubyRef}
+            amberRef={amberRef}
+            pearlRef={pearlRef}
+            sapphireRef={sapphireRef}
+            maleRef={maleRef}
+            femaleRef={femaleRef}
+            setGender={setGender}
+          />
+        </div>
+      ) : null}
       <ReturnButton setMenuState={setMenuState} />
       <motion.section className={styles.container} animate={{ opacity: 1 }}>
         <motion.header animate={{ opacity: 1 }}>Add Points</motion.header>
 
         <motion.form animate={{ opacity: 1 }}>
+          <motion.button onClick={handleGetData} whileHover={hover}>
+            Query Name, Age, Gender, House from Database
+          </motion.button>
           <label className={styles.label}>
             Athletes Name:
             <input
+              ref={nameRef}
+              bind:value={name}
               onChange={(e) => setName(e.target.value)}
               className={styles.textInput}
               type="text"
@@ -91,7 +132,8 @@ export default function AddPoints({ setMenuState }) {
             <input
               onChange={(e) => setGrade(e.target.value)}
               className={styles.textInput}
-              type="number"
+              type="text"
+              ref={gradeRef}
             />
           </label>
           <label className={styles.label}>
@@ -106,6 +148,7 @@ export default function AddPoints({ setMenuState }) {
           <label className={styles.label}>
             Ruby:
             <input
+              ref={rubyRef}
               onClick={(e) => setHouse(e.target.value)}
               className={styles.radioInput}
               type="radio"
@@ -114,6 +157,7 @@ export default function AddPoints({ setMenuState }) {
             />
             Amber:
             <input
+              ref={amberRef}
               onClick={(e) => setHouse(e.target.value)}
               className={styles.radioInput}
               type="radio"
@@ -122,6 +166,7 @@ export default function AddPoints({ setMenuState }) {
             />
             Pearl:
             <input
+              ref={pearlRef}
               onClick={(e) => setHouse(e.target.value)}
               className={styles.radioInput}
               type="radio"
@@ -130,6 +175,7 @@ export default function AddPoints({ setMenuState }) {
             />
             Sapphire:
             <input
+              ref={sapphireRef}
               onClick={(e) => setHouse(e.target.value)}
               className={styles.radioInput}
               type="radio"
@@ -141,6 +187,7 @@ export default function AddPoints({ setMenuState }) {
           <label>
             Male:
             <input
+              ref={maleRef}
               onClick={(e) => setGender(e.target.value)}
               className={styles.radioInput}
               type="radio"
@@ -149,6 +196,7 @@ export default function AddPoints({ setMenuState }) {
             />
             Female:
             <input
+              ref={femaleRef}
               onClick={(e) => setGender(e.target.value)}
               className={styles.radioInput}
               type="radio"

@@ -96,5 +96,6 @@ i {
     font-size: clamp(10px, 30px, 70px);
     margin: 0px;
     cursor: pointer;
-    opacity: 0
+    opacity: 0;
+
 }
