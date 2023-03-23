@@ -18,6 +18,8 @@ const hover = {
 };
 
 export default function AddPoints({ setMenuState }) {
+  const [disabled, setDisabled] = useState(false);
+  const submitButtonRef = useRef();
   const maleRef = useRef();
   const femaleRef = useRef();
   const nameRef = useRef();
@@ -46,6 +48,7 @@ export default function AddPoints({ setMenuState }) {
 
   async function formSubmit(e) {
     e.preventDefault();
+    setDisabled(true);
 
     try {
       await addDoc(collection(db, 'points'), {
@@ -67,6 +70,7 @@ export default function AddPoints({ setMenuState }) {
       setHouse('');
       setGrade('');
       setMenuState(-1);
+      setDisabled(false);
     } catch (e) {
       console.log('Error adding document: ', e);
     }
@@ -204,7 +208,12 @@ export default function AddPoints({ setMenuState }) {
               name="gender"
             />
           </label>
-          <motion.button onClick={formSubmit} whileHover={hover}>
+          <motion.button
+            disabled={disabled}
+            ref={submitButtonRef}
+            onClick={formSubmit}
+            whileHover={hover}
+          >
             Submit
           </motion.button>
         </motion.form>
